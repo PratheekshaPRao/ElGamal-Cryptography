@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive ElGamal Cryptosystem virtual laboratory.">
+  <title>ElGamal Virtual Laboratory</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+    <a class="brand" href="#home">
+      <span class="brand-mark">VL</span>
+      <span><strong>Cryptography Laboratory</strong><small>Department of Computer Science</small></span>
+    </a>
+    <span class="topbar-label">Virtual Experiment</span>
+  </header>
+
+  <div class="page-layout" id="home">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-heading">EXPERIMENT GUIDE</div>
+      <a href="#introduction" class="side-link active">Introduction</a>
+      <a href="#objective" class="side-link">Objective</a>
+      <a href="#theory" class="side-link">Theory &amp; Algorithm</a>
+      <a href="#advantages" class="side-link">Advantages</a>
+      <a href="#limitations" class="side-link">Limitations</a>
+      <a href="#applications" class="side-link">Applications</a>
+      <a href="#experiment" class="side-link">Virtual Experiment</a>
+      <a href="#flowchart" class="side-link">Algorithm Flow</a>
+      <a href="#tests" class="side-link">Test Cases</a>
+      <a href="#conclusion" class="side-link">Conclusion</a>
+      <div class="sidebar-note">
+        <span class="status-dot"></span>
+        <span>Interactive lab<br><small>Backend-connected simulation</small></span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="breadcrumb">Home <span>›</span> Cryptography <span>›</span> ElGamal</div>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">PUBLIC-KEY CRYPTOSYSTEMS · EXPERIMENT 04</p>
+          <h1>ElGamal Cryptosystem</h1>
+          <p>Explore key generation, encryption and decryption through an interactive, step-by-step laboratory experiment.</p>
+        </div>
+        <div class="hero-symbol" aria-hidden="true">g<sup>x</sup> mod p</div>
+      </section>
+
+      <section class="content-section" id="introduction">
+        <h2>Introduction</h2>
+        <div class="accent-line"></div>
+        <p>ElGamal is an asymmetric (public-key) encryption algorithm. The sender uses the recipient’s public key to encrypt a message, and the recipient uses the corresponding private key to decrypt it. Its security is based on the computational difficulty of the discrete logarithm problem. This experiment demonstrates the process through interactive key generation, encryption, and decryption.</p>
+      </section>
+
+      <section class="content-section" id="objective">
+        <h2>Objective</h2>
+        <div class="accent-line"></div>
+        <p>Generate an ElGamal key pair, encrypt a message character by character using its ASCII values, and decrypt the ciphertext. Observe the values and modular arithmetic at every stage, then verify that the recovered message matches the original.</p>
+      </section>
+
+      <section class="content-section" id="theory">
+        <h2>Theory &amp; Algorithm</h2>
+        <div class="accent-line"></div>
+        <div class="theory-grid">
+          <article class="theory-card">
+            <span class="step-number">01</span>
+            <h3>Key generation</h3>
+            <ol>
+              <li>Choose prime p &gt; 255 and find a generator g modulo p.</li>
+              <li>Choose private key x, with 2 ≤ x ≤ p − 2.</li>
+              <li>Calculate y = g<sup>x</sup> mod p.</li>
+              <li>Public key: (p, g, y); private key: x.</li>
+            </ol>
+          </article>
+          <article class="theory-card">
+            <span class="step-number">02</span>
+            <h3>Encryption</h3>
+            <ol>
+              <li>Choose a fresh random k, with 2 ≤ k ≤ p − 2.</li>
+              <li>Calculate c1 = g<sup>k</sup> mod p.</li>
+              <li>Calculate shared key = y<sup>k</sup> mod p.</li>
+              <li>For each character m: c2 = (m × shared key) mod p.</li>
+            </ol>
+          </article>
+          <article class="theory-card">
+            <span class="step-number">03</span>
+            <h3>Decryption</h3>
+            <ol>
+              <li>Calculate shared key = c1<sup>x</sup> mod p.</li>
+              <li>Find its modular inverse modulo p.</li>
+              <li>Recover each m = (c2 × shared key<sup>−1</sup>) mod p.</li>
+              <li>Convert recovered values back to characters.</li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section" id="advantages">
+        <h2>Advantages</h2>
+        <div class="accent-line"></div>
+        <ul class="test-notes">
+          <li>The private key remains with its owner and does not need to be shared with the sender.</li>
+          <li>With fresh valid random values, encrypting the same message can produce different ciphertexts.</li>
+          <li>Its mathematical foundation is related to the discrete logarithm problem.</li>
+          <li>It can be used in public-key encryption applications.</li>
+        </ul>
+      </section>
+
+      <section class="content-section" id="limitations">
+        <h2>Limitations</h2>
+        <div class="accent-line"></div>
+        <ul class="test-notes">
+          <li>The ciphertext is larger than the original plaintext.</li>
+          <li>Encryption uses modular arithmetic and can be computationally expensive.</li>
+          <li>Security depends on appropriate parameters, secure random values, and correct implementation.</li>
+          <li>The small prime used in this educational demonstration is not secure for real-world communication.</li>
+        </ul>
+      </section>
+
+      <section class="content-section" id="applications">
+        <h2>Applications</h2>
+        <div class="accent-line"></div>
+        <ul class="test-notes">
+          <li>Public-key encryption of messages or data.</li>
+          <li>Cryptographic systems that require randomized public-key encryption.</li>
+          <li>Certain cryptographic protocols and implementations based on ElGamal.</li>
+          <li>An educational example for learning public-key cryptography, encryption, decryption, and modular arithmetic.</li>
+        </ul>
+      </section>
+
+      <section class="content-section experiment-section" id="experiment">
+        <h2>Virtual Experiment</h2>
+        <div class="accent-line"></div>
+        <p class="section-intro">Enter a prime and a message to run the experiment. Key generation, encryption and decryption are performed by the Python backend.</p>
+
+        <div class="input-panel">
+          <div class="form-field">
+            <label for="primeInput">Prime number, p</label>
+            <input id="primeInput" type="number" value="467" min="257" max="1000000000" placeholder="For example: 467">
+            <small>Prime greater than 255; maximum 1,000,000,000.</small>
+          </div>
+          <div class="form-field message-field">
+            <label for="messageInput">Message</label>
+            <input id="messageInput" type="text" value="HELLO" maxlength="500" placeholder="Enter a message">
+            <small>Each character must have a code point less than p.</small>
+          </div>
+          <button class="button button-primary" id="generateButton">Generate Keys</button>
+        </div>
+
+        <div class="notice" id="notice" role="status" aria-live="polite"></div>
+
+        <div class="lab-grid">
+          <article class="lab-card">
+            <div class="card-title"><span class="card-index">1</span><h3>Key Generation</h3></div>
+            <p class="muted">The backend validates p, finds g and creates the key pair.</p>
+            <div class="value-list" id="keyValues"><p class="empty-state">Generate keys to begin.</p></div>
+            <div class="step-output" id="keySteps"></div>
+          </article>
+
+          <article class="lab-card">
+            <div class="card-title"><span class="card-index">2</span><h3>Encryption</h3></div>
+            <p class="muted">A fresh random k is generated for each encryption.</p>
+            <button class="button button-outline" id="encryptButton" disabled>Encrypt Message</button>
+            <div class="value-list" id="encryptionValues"><p class="empty-state">Generate keys, then encrypt.</p></div>
+            <div class="step-output" id="encryptionSteps"></div>
+          </article>
+
+          <article class="lab-card">
+            <div class="card-title"><span class="card-index">3</span><h3>Decryption</h3></div>
+            <p class="muted">Recover the message using the private key.</p>
+            <button class="button button-outline" id="decryptButton" disabled>Decrypt Message</button>
+            <div class="value-list" id="decryptionValues"><p class="empty-state">Encrypt a message, then decrypt.</p></div>
+            <div class="step-output" id="decryptionSteps"></div>
+          </article>
+        </div>
+
+        <div class="result-panel" id="resultPanel">
+          <div>
+            <p class="eyebrow">EXPERIMENT RESULT</p>
+            <h3>Message verification</h3>
+          </div>
+          <div class="result-values" id="resultValues">
+            <p>Complete the experiment to compare the original and decrypted messages.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="flowchart">
+        <h2>Algorithm Flow</h2>
+        <div class="accent-line"></div>
+        <div class="flowchart" aria-label="ElGamal algorithm flow">
+          <div class="flow-node">START</div><span class="flow-arrow">↓</span>
+          <div class="flow-node">Enter prime p</div><span class="flow-arrow">↓</span>
+          <div class="flow-node">Find generator g</div><span class="flow-arrow">↓</span>
+          <div class="flow-node">Generate private key x<br>Calculate public key y</div><span class="flow-arrow">↓</span>
+          <div class="flow-node">Enter message &amp; generate random k</div><span class="flow-arrow">↓</span>
+          <div class="flow-node">Encrypt → Ciphertext</div><span class="flow-arrow">↓</span>
+          <div class="flow-node">Decrypt → Recovered message</div><span class="flow-arrow">↓</span>
+          <div class="flow-node flow-end">END</div>
+        </div>
+      </section>
+
+      <section class="content-section" id="tests">
+        <h2>Test Cases</h2>
+        <div class="accent-line"></div>
+        <p>Use the input fields above to test different prime numbers and messages. Each encryption creates a new random k, so encrypting the same message again can produce a different ciphertext while still decrypting to the original.</p>
+        <ul class="test-notes">
+          <li>Try a valid prime such as 467 and a short message.</li>
+          <li>Try a composite number, such as 468, to see prime validation.</li>
+          <li>Try a value at or below 255 to see the ASCII-range validation.</li>
+          <li>Try non-ASCII text; its code point must be less than p.</li>
+        </ul>
+      </section>
+
+      <section class="content-section course-info">
+        <div><h2>Target Audience</h2><p>Undergraduate students studying cryptography, information security and modular arithmetic.</p></div>
+        <div><h2>Course Alignment</h2><p>Public-key cryptography · Discrete mathematics · Network and information security</p></div>
+      </section>
+
+      <section class="content-section feedback">
+        <h2>Feedback</h2>
+        <div class="accent-line"></div>
+        <p>Use this experiment to explore the relationship between the public key, private key and ciphertext. Record your chosen inputs and observed results in your laboratory report.</p>
+      </section>
+
+      <section class="content-section" id="conclusion">
+        <h2>Conclusion</h2>
+        <div class="accent-line"></div>
+        <p>We implemented the ElGamal Cryptosystem in Python and integrated it into a web-based virtual laboratory using Flask. The application demonstrates key generation, encryption, and decryption through interactive inputs and step-by-step calculations. For the tested inputs, the decrypted message matches the original, demonstrating the implementation’s correctness for those test cases. This project helps users understand public-key encryption through practical experimentation.</p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div><strong>Cryptography Virtual Laboratory</strong><p>For learning and classroom experimentation.</p></div>
+    <span>ElGamal Cryptosystem · Academic use</span>
+  </footer>
+</body>
+</html>
